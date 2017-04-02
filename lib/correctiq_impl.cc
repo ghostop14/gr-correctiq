@@ -60,6 +60,28 @@ namespace gr {
       /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
     }
 
+    int correctiq_impl::testCPU(int noutput_items,
+                       gr_vector_const_void_star &input_items,
+                       gr_vector_void_star &output_items) {
+        const gr_complex *in = (const gr_complex *) input_items[0];
+        gr_complex *out = (gr_complex *) output_items[0];
+
+        int i;
+
+        for (i = 0; i < noutput_items; i++)
+        {
+          avg_real = avg_real + ratio * (in[i].real() - avg_real);
+          avg_img = avg_img + ratio * (in[i].imag() - avg_img);
+
+//          out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
+          out[i].real(in[i].real() - avg_real);
+          out[i].imag(in[i].imag() - avg_img);
+        }
+
+        // Tell runtime system how many output items we produced.
+        return noutput_items;
+    }
+
     int
     correctiq_impl::general_work (int noutput_items,
                        gr_vector_int &ninput_items,
@@ -76,7 +98,10 @@ namespace gr {
         avg_real = avg_real + ratio * (in[i].real() - avg_real);
         avg_img = avg_img + ratio * (in[i].imag() - avg_img);
 
-        out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
+        // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
+        // slightly faster than creating a new object
+        out[i].real(in[i].real() - avg_real);
+        out[i].imag(in[i].imag() - avg_img);
       }
 
       // Do <+signal processing+>

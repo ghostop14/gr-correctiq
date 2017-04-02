@@ -61,6 +61,7 @@ include_directories(${CPPUNIT_INCLUDE_DIRS})
 list(APPEND test_correctiq_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/test_correctiq.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qa_correctiq.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/correctiq_impl.cc
 )
 
 add_executable(test-correctiq ${test_correctiq_sources})
