@@ -60,7 +60,7 @@ void timeCorrectIQ() {
 
 	for (i=0;i<largeBlockSize;i++) {
 		inputItems.push_back(gr_complex(1.0f,0.5f));
-		outputItems.push_back(0.0);
+		outputItems.push_back(grZero);
 	}
 
 	inputPointers.push_back((const void *)&inputItems[0]);
