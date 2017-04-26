@@ -17,6 +17,8 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
+set (CMAKE_CXX_STANDARD 11)
+
 ########################################################################
 # Setup library
 ########################################################################
