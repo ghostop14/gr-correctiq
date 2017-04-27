@@ -18,5 +18,8 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    correctiq_correctiq.xml DESTINATION share/gnuradio/grc/blocks
+    correctiq_correctiq.xml 
+    correctiq_correctiq_auto.xml 
+    correctiq_correctiq_man.xml 
+    DESTINATION share/gnuradio/grc/blocks
 )

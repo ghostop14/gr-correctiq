@@ -1,5 +1,5 @@
 <block>
-  <name>Correctiq</name>
+  <name>CorrectIQ</name>
   <key>correctiq_correctiq</key>
   <category>[CORRECTIQ]</category>
   <import>import correctiq</import>
@@ -12,4 +12,8 @@
     <name>out</name>
     <type>complex</type>
   </source>
+	<doc>
+This block to removes that center frequency IQ DC spike just like some software and drivers do.  Just drop it in your flowgraph after your
+radio source and you're all set.  No more offset tuning to get rid of that spike, now you can use the whole bandwidth.
+	</doc>
 </block>

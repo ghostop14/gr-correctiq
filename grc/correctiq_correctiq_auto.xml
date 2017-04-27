@@ -1,0 +1,54 @@
+<block>
+  <name>CorrectIQ AutoSync Offset</name>
+  <key>correctiq_correctiq_auto</key>
+  <category>[CORRECTIQ]</category>
+  <import>import correctiq</import>
+  <make>correctiq.correctiq_auto($samp_rate,$freq,$gain,$syncTime)</make>
+  	<callback>set_freq($freq)</callback>
+  	<callback>set_gain($gain)</callback>
+  	<param>
+			<name>Sample Rate</name>
+			<key>samp_rate</key>
+			<value>samp_rate</value>
+	</param>
+		<param>
+		<name>Sync Learning Period</name>
+		<key>syncTime</key>
+		<type>enum</type>
+		<option>
+			<name>Normal</name>
+			<key>10.0</key>
+		</option>
+		<option>
+			<name>Long</name>
+			<key>20.0</key>
+		</option>
+		<option>
+			<name>Longer</name>
+			<key>40.0</key>
+		</option>
+	</param>
+	
+  	<param>
+			<name>Frequency</name>
+			<key>freq</key>
+			<value></value>
+	</param>
+  	<param>
+			<name>Upstream Gain</name>
+			<key>gain</key>
+			<value></value>
+	</param>
+  
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+	<doc>
+This block to removes that center frequency IQ DC spike with a slight variation.  It automatically calculates the offset then switches to straight DC offset mode to prevent any possible filtering after it's been tuned.  However if frequency or upstream gain is changed, it must retune, so frequency and upstream gain are all taken as parameters and monitored for changes.
+	</doc>
+</block>
