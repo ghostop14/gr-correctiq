@@ -29,6 +29,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND correctiq_sources
     correctiq_impl.cc
+    correctiq_auto_impl.cc
+    correctiq_man_impl.cc
 )
 
 set(correctiq_sources "${correctiq_sources}" PARENT_SCOPE)
@@ -64,6 +66,8 @@ list(APPEND test_correctiq_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/test_correctiq.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qa_correctiq.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/correctiq_impl.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/correctiq_auto_impl.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/correctiq_man_impl.cc
 )
 
 add_executable(test-correctiq ${test_correctiq_sources})

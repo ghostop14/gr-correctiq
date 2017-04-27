@@ -40,7 +40,7 @@ namespace gr {
      * The private constructor
      */
     correctiq_impl::correctiq_impl()
-      : gr::block("correctiq",
+      : gr::sync_block("correctiq",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(gr_complex)))
     {
@@ -53,12 +53,6 @@ namespace gr {
      */
     correctiq_impl::~correctiq_impl()
     {
-    }
-
-    void
-    correctiq_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
-    {
-      /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
     }
 
     int correctiq_impl::testCPU(int noutput_items,
@@ -84,8 +78,7 @@ namespace gr {
     }
 
     int
-    correctiq_impl::general_work (int noutput_items,
-                       gr_vector_int &ninput_items,
+    correctiq_impl::work (int noutput_items,
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
@@ -108,11 +101,6 @@ namespace gr {
         out[i].real = in_r - avg_real;
         out[i].imag = in_i - avg_img;
       }
-
-      // Do <+signal processing+>
-      // Tell runtime system how many input items we consumed on
-      // each input stream.
-      consume_each (noutput_items);
 
       // Tell runtime system how many output items we produced.
       return noutput_items;

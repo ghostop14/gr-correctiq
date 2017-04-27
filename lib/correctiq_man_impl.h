@@ -21,22 +21,31 @@
 #ifndef INCLUDED_CORRECTIQ_CORRECTIQ_IMPL_H
 #define INCLUDED_CORRECTIQ_CORRECTIQ_IMPL_H
 
-#include <correctiq/correctiq.h>
+#include <correctiq/correctiq_man.h>
 
 namespace gr {
   namespace correctiq {
 
-    class correctiq_impl : public correctiq
+    class correctiq_man_impl : public correctiq_man
     {
      private:
       // Nothing to declare in this block.
      float avg_real = 0.0;
      float avg_img = 0.0;
-     float ratio=1e-05f;
+
+     gr_complex d_k;
 
      public:
-      correctiq_impl();
-      ~correctiq_impl();
+      correctiq_man_impl(float real,float imag);
+      ~correctiq_man_impl();
+
+      void setup_rpc();
+
+      virtual float get_real();
+      virtual float get_imag();
+
+      virtual void set_real(float newValue);
+      virtual void set_imag(float newValue);
 
       int testCPU(int noutput_items,
                          gr_vector_const_void_star &input_items,
