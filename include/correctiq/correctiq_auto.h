@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_CORRECTIQ_CORRECTIQ_H
-#define INCLUDED_CORRECTIQ_CORRECTIQ_H
+#ifndef INCLUDED_CORRECTIQ_CORRECTIQ_AUTO_H
+#define INCLUDED_CORRECTIQ_CORRECTIQ_AUTO_H
 
 #include <correctiq/api.h>
 #include <gnuradio/sync_block.h>
@@ -33,10 +33,10 @@ namespace gr {
      * \ingroup correctiq
      *
      */
-    class CORRECTIQ_API correctiq : virtual public gr::sync_block
+    class CORRECTIQ_API correctiq_auto : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<correctiq> sptr;
+      typedef boost::shared_ptr<correctiq_auto> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of correctiq::correctiq.
@@ -46,7 +46,14 @@ namespace gr {
        * class. correctiq::correctiq::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(float samp_rate,float freq,float gain,float syncWindow);
+
+      virtual float get_freq() = 0;
+      virtual float get_gain() = 0;
+
+      virtual void set_freq(float newValue) = 0;
+      virtual void set_gain(float newValue) = 0;
+
     };
 
   } // namespace correctiq

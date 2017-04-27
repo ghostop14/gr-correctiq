@@ -22,5 +22,8 @@
 ########################################################################
 install(FILES
     api.h
-    correctiq.h DESTINATION include/correctiq
+    correctiq.h 
+    correctiq_auto.h 
+    correctiq_man.h 
+    DESTINATION include/correctiq
 )
