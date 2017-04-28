@@ -12,21 +12,9 @@
 			<value>samp_rate</value>
 	</param>
 		<param>
-		<name>Sync Learning Period</name>
+		<name>Sync Learning Period (sec)</name>
 		<key>syncTime</key>
-		<type>enum</type>
-		<option>
-			<name>Normal</name>
-			<key>10.0</key>
-		</option>
-		<option>
-			<name>Long</name>
-			<key>20.0</key>
-		</option>
-		<option>
-			<name>Longer</name>
-			<key>40.0</key>
-		</option>
+			<value>2</value>
 	</param>
 	
   	<param>
