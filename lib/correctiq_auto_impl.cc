@@ -93,16 +93,15 @@ namespace gr {
     int correctiq_auto_impl::testCPU(int noutput_items,
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items) {
-        const gr_complex *in = (const gr_complex *) input_items[0];
-        gr_complex *out = (gr_complex *) output_items[0];
+        const SComplex *in = (const SComplex *) input_items[0];
+        SComplex *out = (SComplex *) output_items[0];
 
         int i;
 
         for (i = 0; i < noutput_items; i++)
         {
-//          out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
-          out[i].real(in[i].real() + avg_real);
-          out[i].imag(in[i].imag() + avg_img);
+            out[i].real = in[i].real - avg_real;
+            out[i].imag = in[i].imag - avg_img;
         }
 
         // Tell runtime system how many output items we produced.
@@ -118,25 +117,24 @@ namespace gr {
       SComplex *out = (SComplex *) output_items[0];
 
       int i;
-      float in_r,in_i;
 
       for (i = 0; i < noutput_items; i++)
       {
-    	in_r = in[i].real;
-    	in_i = in[i].imag;
-
         if (synchronized) {
             // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
             // slightly faster than creating a new object
-            out[i].real = in_r + avg_real;
-            out[i].imag = in_i + avg_img;
+            out[i].real = in[i].real - avg_real;
+            out[i].imag = in[i].imag - avg_img;
         }
         else {
-            out[i].real = in_r;
-            out[i].imag = in_i;
+        	// Synchronizing.  Behave just like normal correctiq.
 
             avg_real = avg_real + ratio * (in[i].real - avg_real);
             avg_img = avg_img + ratio * (in[i].imag - avg_img);
+
+            out[i].real = in[i].real - avg_real;
+            out[i].imag = in[i].imag - avg_img;
+
             syncCounter++;
         }
 
