@@ -526,7 +526,7 @@ Hackrf: 0-62 in 2 dB steps</value>
     </param>
     <param>
       <key>file</key>
-      <value>/opt/sdr/gnuradio/gnuradio_recordings/atsc/gnuradio_atsc_593MHz_6.2MSPS.raw</value>
+      <value>/tmp/input.cfile</value>
     </param>
     <param>
       <key>_coordinate</key>
