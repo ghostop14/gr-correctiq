@@ -26,6 +26,21 @@
 #include "correctiq_auto_impl.h"
 #include "clSComplex.h"
 
+// assisted detection of Fused Multiply Add (FMA) functionality
+#if !defined(__FMA__) && defined(__AVX2__)
+#define __FMA__ 1
+#endif
+
+#if defined(FP_FAST_FMA)
+#define __FMA__ 1
+#endif
+
+#if defined(__FMA__)
+#pragma message "FMA support detected.  Compiling for Fused Multiply/Add support."
+#else
+#pragma message "No FMA support detected.  Compiling for normal math."
+#endif
+
 namespace gr {
   namespace correctiq {
 
@@ -128,9 +143,14 @@ namespace gr {
         }
         else {
         	// Synchronizing.  Behave just like normal correctiq.
-
-            avg_real = avg_real + ratio * (in[i].real - avg_real);
-            avg_img = avg_img + ratio * (in[i].imag - avg_img);
+#if defined(__FMA__)
+        	// fma(a,b,c) = (a*b)+c
+          avg_real = __builtin_fmaf(ratio,(in[i].real - avg_real),avg_real);
+          avg_img = __builtin_fmaf(ratio,(in[i].imag - avg_img),avg_img);
+#else
+          avg_real = ratio * (in[i].real - avg_real) + avg_real;
+          avg_img = ratio * (in[i].imag - avg_img) + avg_img;
+#endif
 
             out[i].real = in[i].real - avg_real;
             out[i].imag = in[i].imag - avg_img;
@@ -143,8 +163,9 @@ namespace gr {
       if (!synchronized && (syncCounter >= d_max_syncSamples)) {
     	  synchronized = true;
 
-      	std::cout << "CorrectIQ Auto offset now synchronized.  Using Real=" << std::fixed << std::setw(11)
-        << std::setprecision(6) << avg_real << " imag=" << avg_img << std::endl;
+      	std::cout << "CorrectIQ Auto offset now synchronized." << std::endl;
+      	std::cout << "Applying these offsets... Real:" << std::fixed << std::setw(11)
+        << std::setprecision(6) << -avg_real << ", imag:" << -avg_img << std::endl;
 
       }
 

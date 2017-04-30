@@ -26,6 +26,21 @@
 #include "correctiq_impl.h"
 #include "clSComplex.h"
 
+// assisted detection of Fused Multiply Add (FMA) functionality
+#if !defined(__FMA__) && defined(__AVX2__)
+#define __FMA__ 1
+#endif
+
+#if defined(FP_FAST_FMA)
+#define __FMA__ 1
+#endif
+
+#if defined(__FMA__)
+#pragma message "FMA support detected.  Compiling for Fused Multiply/Add support."
+#else
+#pragma message "No FMA support detected.  Compiling for normal math."
+#endif
+
 namespace gr {
   namespace correctiq {
 
@@ -58,19 +73,27 @@ namespace gr {
     int correctiq_impl::testCPU(int noutput_items,
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items) {
-        const gr_complex *in = (const gr_complex *) input_items[0];
-        gr_complex *out = (gr_complex *) output_items[0];
+        const SComplex *in = (const SComplex *) input_items[0];
+        SComplex *out = (SComplex *) output_items[0];
 
         int i;
 
         for (i = 0; i < noutput_items; i++)
         {
-          avg_real = avg_real + ratio * (in[i].real() - avg_real);
-          avg_img = avg_img + ratio * (in[i].imag() - avg_img);
 
-//          out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
-          out[i].real(in[i].real() - avg_real);
-          out[i].imag(in[i].imag() - avg_img);
+  #if defined(__FMA__)
+          	// fma(a,b,c) = (a*b)+c
+            avg_real = __builtin_fmaf(ratio,(in[i].real - avg_real),avg_real);
+            avg_img = __builtin_fmaf(ratio,(in[i].imag - avg_img),avg_img);
+  #else
+            avg_real = ratio * (in[i].real - avg_real) + avg_real;
+            avg_img = ratio * (in[i].imag - avg_img) + avg_img;
+  #endif
+
+          // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
+          // slightly faster than creating a new object
+          out[i].real = in[i].real - avg_real;
+          out[i].imag = in[i].imag - avg_img;
         }
 
         // Tell runtime system how many output items we produced.
@@ -86,20 +109,23 @@ namespace gr {
       SComplex *out = (SComplex *) output_items[0];
 
       int i;
-      float in_r,in_i;
 
       for (i = 0; i < noutput_items; i++)
       {
-    	in_r = in[i].real;
-    	in_i = in[i].imag;
 
-        avg_real = avg_real + ratio * (in_r - avg_real);
-        avg_img = avg_img + ratio * (in_i - avg_img);
+#if defined(__FMA__)
+        	// fma(a,b,c) = (a*b)+c
+          avg_real = __builtin_fmaf(ratio,(in[i].real - avg_real),avg_real);
+          avg_img = __builtin_fmaf(ratio,(in[i].imag - avg_img),avg_img);
+#else
+          avg_real = ratio * (in[i].real - avg_real) + avg_real;
+          avg_img = ratio * (in[i].imag - avg_img) + avg_img;
+#endif
 
         // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
         // slightly faster than creating a new object
-        out[i].real = in_r - avg_real;
-        out[i].imag = in_i - avg_img;
+        out[i].real = in[i].real - avg_real;
+        out[i].imag = in[i].imag - avg_img;
       }
 
       // Tell runtime system how many output items we produced.
