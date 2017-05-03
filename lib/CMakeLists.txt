@@ -111,6 +111,8 @@ target_link_libraries(
   gnuradio-correctiq
 )
 
+install(TARGETS test-correctiq DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" RUNTIME)
+
 GR_ADD_TEST(test_correctiq test-correctiq)
 
 ########################################################################
