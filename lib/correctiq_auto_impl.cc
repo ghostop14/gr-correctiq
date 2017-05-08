@@ -96,6 +96,10 @@ namespace gr {
     	d_freq = newValue;
     	synchronized = false;
     	syncCounter = 0;
+
+    	// reset counters on an unsync
+        avg_real=0.0;
+        avg_img=0.0;
     }
 
     void correctiq_auto_impl::set_gain(float newValue) {
@@ -103,6 +107,10 @@ namespace gr {
     	d_gain = newValue;
     	synchronized = false;
     	syncCounter = 0;
+
+    	// reset counters on an unsync
+        avg_real=0.0;
+        avg_img=0.0;
     }
 
     int correctiq_auto_impl::testCPU(int noutput_items,
