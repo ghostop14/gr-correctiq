@@ -71,7 +71,7 @@ if(NOT correctiq_sources)
 endif(NOT correctiq_sources)
 
 add_library(gnuradio-correctiq SHARED ${correctiq_sources})
-target_link_libraries(gnuradio-correctiq ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} thrift)
+target_link_libraries(gnuradio-correctiq ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
 set_target_properties(gnuradio-correctiq PROPERTIES DEFINE_SYMBOL "gnuradio_correctiq_EXPORTS")
 
 if(APPLE)
@@ -109,7 +109,6 @@ target_link_libraries(
   ${Boost_LIBRARIES}
   ${CPPUNIT_LIBRARIES}
   gnuradio-correctiq
-  thrift
   volk
 )
 
