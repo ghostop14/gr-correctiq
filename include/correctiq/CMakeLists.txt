@@ -24,6 +24,6 @@ install(FILES
     api.h
     correctiq.h 
     correctiq_auto.h 
-    correctiq_man.h 
-    DESTINATION include/correctiq
+    correctiq_man.h
+    SwapIQ.h DESTINATION include/correctiq
 )

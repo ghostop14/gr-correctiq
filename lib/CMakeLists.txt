@@ -62,6 +62,7 @@ list(APPEND correctiq_sources
     correctiq_impl.cc
     correctiq_auto_impl.cc
     correctiq_man_impl.cc
+    SwapIQ_impl.cc
 )
 
 set(correctiq_sources "${correctiq_sources}" PARENT_SCOPE)

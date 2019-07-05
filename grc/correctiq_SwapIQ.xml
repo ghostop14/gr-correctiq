@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<block>
+  <name>SwapIQ</name>
+  <key>correctiq_SwapIQ</key>
+  <category>[CORRECTIQ]</category>
+  <import>import correctiq</import>
+  <make>correctiq.SwapIQ($type.datatype, $type.datasize)</make>
+	<param>
+		<name>Input Type</name>
+		<key>type</key>
+		<type>enum</type>
+		<option>
+			<name>Complex</name>
+			<key>complex</key>
+			<opt>datatype:1</opt>
+			<opt>datasize:gr.sizeof_gr_complex</opt>
+		</option>
+		<option>
+			<name>Short</name>
+			<key>short</key>
+			<opt>datatype:2</opt>
+			<opt>datasize:gr.sizeof_short</opt>
+		</option>
+		<option>
+			<name>Byte</name>
+			<key>byte</key>
+			<opt>datatype:3</opt>
+			<opt>datasize:gr.sizeof_char</opt>
+		</option>
+	</param>
+	<sink>
+		<name>in</name>
+		<type>$type</type>
+	</sink>
+	<source>
+		<name>out</name>
+		<type>$type</type>
+	</source>
+	<doc>
+	This block will transpose the I and Q channels (Swap IQ) to correct for spectrally inverted inputs.
+	</doc>
+</block>

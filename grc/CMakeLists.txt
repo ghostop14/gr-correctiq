@@ -20,6 +20,6 @@
 install(FILES
     correctiq_correctiq.xml 
     correctiq_correctiq_auto.xml 
-    correctiq_correctiq_man.xml 
-    DESTINATION share/gnuradio/grc/blocks
+    correctiq_correctiq_man.xml
+    correctiq_SwapIQ.xml DESTINATION share/gnuradio/grc/blocks
 )
