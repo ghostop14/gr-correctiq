@@ -1,0 +1,21 @@
+id: correctiq_correctiq
+label: CorrectIQ
+category: '[CORRECTIQ]'
+
+templates:
+  imports: import correctiq
+  make: correctiq.correctiq(${})
+
+inputs:
+-   domain: stream
+    dtype: complex
+
+outputs:
+-   domain: stream
+    dtype: complex
+
+documentation: |-
+    This block to removes that center frequency IQ DC spike just like some software and drivers do.  Just drop it in your flowgraph after your
+    radio source and you're all set.  No more offset tuning to get rid of that spike, now you can use the whole bandwidth.
+
+file_format: 1

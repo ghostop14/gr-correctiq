@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
- * Copyright 2017 ghostop14.
- * 
+/*
+ * Copyright 2019 ghostop14.
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -48,8 +48,9 @@ namespace gr {
     correctiq_auto::make(float samp_rate,float freq,float gain,float syncWindow)
     {
       return gnuradio::get_initial_sptr
-        (new correctiq_auto_impl(samp_rate,freq,gain,syncWindow));
+        (new correctiq_auto_impl(samp_rate, freq, gain, syncWindow));
     }
+
 
     /*
      * The private constructor
@@ -92,7 +93,7 @@ namespace gr {
     }
 
     void correctiq_auto_impl::set_freq(float newValue) {
-    	std::cout << "CorrectIQ Auto Synchronizing..." << std::endl;
+    	std::cout << "[CorrectIQ_Auto] Auto Synchronizing..." << std::endl;
     	d_freq = newValue;
     	synchronized = false;
     	syncCounter = 0;
@@ -103,7 +104,7 @@ namespace gr {
     }
 
     void correctiq_auto_impl::set_gain(float newValue) {
-    	std::cout << "CorrectIQ Auto Synchronizing..." << std::endl;
+    	std::cout << "[CorrectIQ_Auto] Auto Synchronizing..." << std::endl;
     	d_gain = newValue;
     	synchronized = false;
     	syncCounter = 0;
@@ -151,14 +152,14 @@ namespace gr {
         }
         else {
         	// Synchronizing.  Behave just like normal correctiq.
-#if defined(__FMA__)
+  #if defined(__FMA__)
         	// fma(a,b,c) = (a*b)+c
           avg_real = __builtin_fmaf(ratio,(in[i].real - avg_real),avg_real);
           avg_img = __builtin_fmaf(ratio,(in[i].imag - avg_img),avg_img);
-#else
+  #else
           avg_real = ratio * (in[i].real - avg_real) + avg_real;
           avg_img = ratio * (in[i].imag - avg_img) + avg_img;
-#endif
+  #endif
 
             out[i].real = in[i].real - avg_real;
             out[i].imag = in[i].imag - avg_img;
@@ -178,52 +179,6 @@ namespace gr {
       }
 
       return noutput_items;
-    }
-
-    void
-	correctiq_auto_impl::setup_rpc()
-    {
-#ifdef GR_CTRLPORT
-      add_rpc_variable(
-        rpcbasic_sptr(new rpcbasic_register_get<correctiq_auto, float>(
-	  alias(), "frequency",
-	  &clMathConst::get_freq,
-	  pmt::from_complex(-4.29e9, 0),
-          pmt::from_complex(4.29e9, 0),
-          pmt::from_complex(0, 0),
-	  "", "frequency", RPC_PRIVLVL_MIN,
-          DISPTIME | DISPOPTCPLX | DISPOPTSTRIP)));
-
-      add_rpc_variable(
-        rpcbasic_sptr(new rpcbasic_register_set<correctiq_auto, float>(
-	  alias(), "frequency",
-	  &clMathConst::set_freq,
-	  pmt::from_complex(-4.29e9, 0),
-          pmt::from_complex(4.29e9, 0),
-          pmt::from_complex(0, 0),
-	  "", "frequency",
-	  RPC_PRIVLVL_MIN, DISPNULL)));
-
-      add_rpc_variable(
-        rpcbasic_sptr(new rpcbasic_register_get<correctiq_auto, float>(
-	  alias(), "gain",
-	  &clMathConst::get_gain,
-	  pmt::from_complex(-4.29e9, 0),
-          pmt::from_complex(4.29e9, 0),
-          pmt::from_complex(0, 0),
-	  "", "gain", RPC_PRIVLVL_MIN,
-          DISPTIME | DISPOPTCPLX | DISPOPTSTRIP)));
-
-      add_rpc_variable(
-        rpcbasic_sptr(new rpcbasic_register_set<correctiq_auto, float>(
-	  alias(), "gain",
-	  &clMathConst::set_gain,
-	  pmt::from_complex(-4.29e9, 0),
-          pmt::from_complex(4.29e9, 0),
-          pmt::from_complex(0, 0),
-	  "", "gain",
-	  RPC_PRIVLVL_MIN, DISPNULL)));
-#endif /* GR_CTRLPORT */
     }
   } /* namespace correctiq */
 } /* namespace gr */

@@ -22,13 +22,14 @@
 This is the GNU Radio CORRECTIQ module. Place your Python package
 description here (python/__init__.py).
 '''
+from __future__ import unicode_literals
 
 # import swig generated symbols into the correctiq namespace
 try:
-	# this might fail if the module is python-only
-	from correctiq_swig import *
+    # this might fail if the module is python-only
+    from .correctiq_swig import *
 except ImportError:
-	pass
+    pass
 
 # import any pure python here
 #

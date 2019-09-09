@@ -1,0 +1,39 @@
+id: correctiq_correctiq_auto
+label: CorrectIQ AutoSync Offset
+category: '[CORRECTIQ]'
+
+templates:
+  imports: import correctiq
+  make: correctiq.correctiq_auto(${samp_rate}, ${freq}, ${gain}, ${syncWindow})
+  callbacks:
+  - set_freq(${freq})
+  - set_gain(${gain})
+
+parameters:
+-   id: samp_rate
+    label: Sample Rate
+    dtype: float
+    default: samp_rate
+-   id: syncWindow
+    label: Sync Learning Period (sec)
+    dtype: float
+    default: '2'
+-   id: freq
+    label: Frequency
+    dtype: float
+-   id: gain
+    label: Upstream Gain
+    dtype: float
+
+inputs:
+-   domain: stream
+    dtype: complex
+
+outputs:
+-   domain: stream
+    dtype: complex
+
+documentation: |-
+    This block to removes that center frequency IQ DC spike with a slight variation.  It automatically calculates the offset then switches to straight DC offset mode to prevent any possible filtering after it's been tuned.  However if frequency or upstream gain is changed, it must retune, so frequency and upstream gain are all taken as parameters and monitored for changes.
+
+file_format: 1
