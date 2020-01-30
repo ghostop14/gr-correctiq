@@ -24,33 +24,27 @@
 #include <correctiq/correctiq.h>
 
 namespace gr {
-  namespace correctiq {
+namespace correctiq {
 
-    class correctiq_impl : public correctiq
-    {
-     private:
-        float avg_real = 0.0;
-        float avg_img = 0.0;
-        float ratio=1e-05f;
+class correctiq_impl : public correctiq {
+private:
+  float avg_real = 0.0;
+  float avg_img = 0.0;
+  float ratio = 1e-05f;
 
-        public:
-         correctiq_impl();
-         ~correctiq_impl();
+public:
+  correctiq_impl();
+  ~correctiq_impl();
 
-         int testCPU(int noutput_items,
-                            gr_vector_const_void_star &input_items,
-                            gr_vector_void_star &output_items);
+  int testCPU(int noutput_items, gr_vector_const_void_star &input_items,
+              gr_vector_void_star &output_items);
 
-      // Where all the action really happens
-      int work(
-              int noutput_items,
-              gr_vector_const_void_star &input_items,
-              gr_vector_void_star &output_items
-      );
-    };
+  // Where all the action really happens
+  int work(int noutput_items, gr_vector_const_void_star &input_items,
+           gr_vector_void_star &output_items);
+};
 
-  } // namespace correctiq
+} // namespace correctiq
 } // namespace gr
 
 #endif /* INCLUDED_CORRECTIQ_CORRECTIQ_IMPL_H */
-

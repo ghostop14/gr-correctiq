@@ -22,118 +22,75 @@
 #include "config.h"
 #endif
 
-#include <gnuradio/io_signature.h>
-#include "correctiq_impl.h"
 #include "clSComplex.h"
-
-// assisted detection of Fused Multiply Add (FMA) functionality
-#if !defined(__FMA__) && defined(__AVX2__)
-#define __FMA__ 1
-#endif
-
-#if defined(FP_FAST_FMA)
-#define __FMA__ 1
-#endif
-
-#if defined(__FMA__)
-#pragma message "FMA support detected.  Compiling for Fused Multiply/Add support."
-#else
-#pragma message "No FMA support detected.  Compiling for normal math."
-#endif
-
-
+#include "correctiq_impl.h"
+#include <gnuradio/io_signature.h>
 
 namespace gr {
-  namespace correctiq {
+namespace correctiq {
 
-    correctiq::sptr
-    correctiq::make( )
-    {
-      return gnuradio::get_initial_sptr
-        (new correctiq_impl());
-    }
+correctiq::sptr correctiq::make() {
+  return gnuradio::get_initial_sptr(new correctiq_impl());
+}
 
+/*
+ * The private constructor
+ */
+correctiq_impl::correctiq_impl()
+    : gr::sync_block("correctiq",
+                     gr::io_signature::make(1, 1, sizeof(gr_complex)),
+                     gr::io_signature::make(1, 1, sizeof(gr_complex))) {
+  avg_real = 0.0;
+  avg_img = 0.0;
+}
 
-    /*
-     * The private constructor
-     */
-    correctiq_impl::correctiq_impl()
-      : gr::sync_block("correctiq",
-              gr::io_signature::make(1, 1, sizeof(gr_complex)),
-              gr::io_signature::make(1, 1, sizeof(gr_complex)))
-    {
-        avg_real=0.0;
-        avg_img=0.0;
-    }
+/*
+ * Our virtual destructor.
+ */
+correctiq_impl::~correctiq_impl() {}
 
-    /*
-     * Our virtual destructor.
-     */
-    correctiq_impl::~correctiq_impl()
-    {
-    }
+int correctiq_impl::testCPU(int noutput_items,
+                            gr_vector_const_void_star &input_items,
+                            gr_vector_void_star &output_items) {
+  const SComplex *in = (const SComplex *)input_items[0];
+  SComplex *out = (SComplex *)output_items[0];
 
-    int correctiq_impl::testCPU(int noutput_items,
-                       gr_vector_const_void_star &input_items,
-                       gr_vector_void_star &output_items) {
-        const SComplex *in = (const SComplex *) input_items[0];
-        SComplex *out = (SComplex *) output_items[0];
+  int i;
 
-        int i;
+  for (i = 0; i < noutput_items; i++) {
+    avg_real = ratio * (in[i].real - avg_real) + avg_real;
+    avg_img = ratio * (in[i].imag - avg_img) + avg_img;
 
-        for (i = 0; i < noutput_items; i++)
-        {
+    // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
+    // slightly faster than creating a new object
+    out[i].real = in[i].real - avg_real;
+    out[i].imag = in[i].imag - avg_img;
+  }
 
-  #if defined(__FMA__)
-          	// fma(a,b,c) = (a*b)+c
-            avg_real = __builtin_fmaf(ratio,(in[i].real - avg_real),avg_real);
-            avg_img = __builtin_fmaf(ratio,(in[i].imag - avg_img),avg_img);
-  #else
-            avg_real = ratio * (in[i].real - avg_real) + avg_real;
-            avg_img = ratio * (in[i].imag - avg_img) + avg_img;
-  #endif
+  // Tell runtime system how many output items we produced.
+  return noutput_items;
+}
 
-          // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
-          // slightly faster than creating a new object
-          out[i].real = in[i].real - avg_real;
-          out[i].imag = in[i].imag - avg_img;
-        }
+int correctiq_impl::work(int noutput_items,
+                         gr_vector_const_void_star &input_items,
+                         gr_vector_void_star &output_items) {
+  const SComplex *in = (const SComplex *)input_items[0];
+  SComplex *out = (SComplex *)output_items[0];
 
-        // Tell runtime system how many output items we produced.
-        return noutput_items;
-    }
+  int i;
 
-    int
-    correctiq_impl::work (int noutput_items,
-                       gr_vector_const_void_star &input_items,
-                       gr_vector_void_star &output_items)
-    {
-      const SComplex *in = (const SComplex *) input_items[0];
-      SComplex *out = (SComplex *) output_items[0];
+  for (i = 0; i < noutput_items; i++) {
+    avg_real = ratio * (in[i].real - avg_real) + avg_real;
+    avg_img = ratio * (in[i].imag - avg_img) + avg_img;
 
-      int i;
+    // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
+    // slightly faster than creating a new object
+    out[i].real = in[i].real - avg_real;
+    out[i].imag = in[i].imag - avg_img;
+  }
 
-      for (i = 0; i < noutput_items; i++)
-      {
-
-  #if defined(__FMA__)
-        	// fma(a,b,c) = (a*b)+c
-          avg_real = __builtin_fmaf(ratio,(in[i].real - avg_real),avg_real);
-          avg_img = __builtin_fmaf(ratio,(in[i].imag - avg_img),avg_img);
-  #else
-          avg_real = ratio * (in[i].real - avg_real) + avg_real;
-          avg_img = ratio * (in[i].imag - avg_img) + avg_img;
-  #endif
-
-        // out[i] = gr_complex(in[i].real() - avg_real,in[i].imag() - avg_img);
-        // slightly faster than creating a new object
-        out[i].real = in[i].real - avg_real;
-        out[i].imag = in[i].imag - avg_img;
-      }
-
-      // Tell runtime system how many output items we produced.
-      return noutput_items;
-    }
-  } /* namespace correctiq */
+  // Tell runtime system how many output items we produced.
+  return noutput_items;
+}
+} /* namespace correctiq */
 } /* namespace gr */
-

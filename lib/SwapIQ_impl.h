@@ -28,27 +28,22 @@
 #define SWAPTYPE_BYTECOMPLEX 3
 
 namespace gr {
-  namespace correctiq {
+namespace correctiq {
 
-    class SwapIQ_impl : public SwapIQ
-    {
-     private:
-        int d_datatype;
+class SwapIQ_impl : public SwapIQ {
+private:
+  int d_datatype;
 
-     public:
-      SwapIQ_impl(int datatype, int datasize);
-      ~SwapIQ_impl();
+public:
+  SwapIQ_impl(int datatype, int datasize);
+  ~SwapIQ_impl();
 
-      // Where all the action really happens
-      int work(
-              int noutput_items,
-              gr_vector_const_void_star &input_items,
-              gr_vector_void_star &output_items
-      );
-    };
+  // Where all the action really happens
+  int work(int noutput_items, gr_vector_const_void_star &input_items,
+           gr_vector_void_star &output_items);
+};
 
-  } // namespace correctiq
+} // namespace correctiq
 } // namespace gr
 
 #endif /* INCLUDED_CORRECTIQ_SWAPIQ_IMPL_H */
-

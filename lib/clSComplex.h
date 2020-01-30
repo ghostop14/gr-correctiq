@@ -8,10 +8,9 @@
 #ifndef INCLUDE_CLENABLED_CLSCOMPLEX_H_
 #define INCLUDE_CLENABLED_CLSCOMPLEX_H_
 
-
 struct ComplexStruct {
-	float real;
-	float imag;
+  float real;
+  float imag;
 };
 
 typedef struct ComplexStruct SComplex;

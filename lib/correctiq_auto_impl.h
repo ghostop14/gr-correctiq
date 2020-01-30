@@ -24,48 +24,45 @@
 #include <correctiq/correctiq_auto.h>
 
 namespace gr {
-  namespace correctiq {
+namespace correctiq {
 
-    class correctiq_auto_impl : public correctiq_auto
-    {
-     private:
-        float avg_real = 0.0;
-        float avg_img = 0.0;
-        float ratio=1e-05f;
+class correctiq_auto_impl : public correctiq_auto {
+private:
+  float avg_real = 0.0;
+  float avg_img = 0.0;
+  float ratio = 1e-05f;
 
-        float d_samp_rate;
-        float d_freq;
-        float d_gain;
-        float d_syncWindow;
+  float d_samp_rate;
+  float d_freq;
+  float d_gain;
+  float d_syncWindow;
 
-        long syncCounter = 0;
-        bool synchronized = false;
+  long syncCounter = 0;
+  bool synchronized = false;
 
-        long d_max_syncSamples;
+  long d_max_syncSamples;
 
-        public:
-         correctiq_auto_impl(float samp_rate,float freq,float gain,float syncWindow);
-         ~correctiq_auto_impl();
+public:
+  correctiq_auto_impl(float samp_rate, float freq, float gain,
+                      float syncWindow);
+  ~correctiq_auto_impl();
 
-         void set_synchronized() {synchronized = true; };  // used for testing
+  void set_synchronized() { synchronized = true; }; // used for testing
 
-         virtual float get_freq();
-         virtual float get_gain();
+  virtual float get_freq();
+  virtual float get_gain();
 
-         virtual void set_freq(float newValue);
-         virtual void set_gain(float newValue);
+  virtual void set_freq(float newValue);
+  virtual void set_gain(float newValue);
 
-         int testCPU(int noutput_items,
-                            gr_vector_const_void_star &input_items,
-                            gr_vector_void_star &output_items);
-
-         int work(int noutput_items,
-              gr_vector_const_void_star &input_items,
+  int testCPU(int noutput_items, gr_vector_const_void_star &input_items,
               gr_vector_void_star &output_items);
-    };
 
-  } // namespace correctiq
+  int work(int noutput_items, gr_vector_const_void_star &input_items,
+           gr_vector_void_star &output_items);
+};
+
+} // namespace correctiq
 } // namespace gr
 
 #endif /* INCLUDED_CORRECTIQ_CORRECTIQ_AUTO_IMPL_H */
-

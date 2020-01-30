@@ -24,37 +24,33 @@
 #include <correctiq/correctiq_man.h>
 
 namespace gr {
-  namespace correctiq {
+namespace correctiq {
 
-    class correctiq_man_impl : public correctiq_man
-    {
-     private:
-        float avg_real = 0.0;
-        float avg_img = 0.0;
+class correctiq_man_impl : public correctiq_man {
+private:
+  float avg_real = 0.0;
+  float avg_img = 0.0;
 
-        gr_complex d_k;
+  gr_complex d_k;
 
-        public:
-         correctiq_man_impl(float real,float imag);
-         ~correctiq_man_impl();
+public:
+  correctiq_man_impl(float real, float imag);
+  ~correctiq_man_impl();
 
-         virtual float get_real();
-         virtual float get_imag();
+  virtual float get_real();
+  virtual float get_imag();
 
-         virtual void set_real(float newValue);
-         virtual void set_imag(float newValue);
+  virtual void set_real(float newValue);
+  virtual void set_imag(float newValue);
 
-         int testCPU(int noutput_items,
-                            gr_vector_const_void_star &input_items,
-                            gr_vector_void_star &output_items);
-
-         int work(int noutput_items,
-              gr_vector_const_void_star &input_items,
+  int testCPU(int noutput_items, gr_vector_const_void_star &input_items,
               gr_vector_void_star &output_items);
-    };
 
-  } // namespace correctiq
+  int work(int noutput_items, gr_vector_const_void_star &input_items,
+           gr_vector_void_star &output_items);
+};
+
+} // namespace correctiq
 } // namespace gr
 
 #endif /* INCLUDED_CORRECTIQ_CORRECTIQ_MAN_IMPL_H */
-
