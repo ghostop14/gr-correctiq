@@ -29,7 +29,7 @@
 namespace gr {
 namespace correctiq {
 
-correctiq_auto::sptr correctiq_auto::make(float samp_rate, float freq,
+correctiq_auto::sptr correctiq_auto::make(double samp_rate, double freq,
                                           float gain, float syncWindow) {
   return gnuradio::get_initial_sptr(
       new correctiq_auto_impl(samp_rate, freq, gain, syncWindow));
@@ -38,7 +38,7 @@ correctiq_auto::sptr correctiq_auto::make(float samp_rate, float freq,
 /*
  * The private constructor
  */
-correctiq_auto_impl::correctiq_auto_impl(float samp_rate, float freq,
+correctiq_auto_impl::correctiq_auto_impl(double samp_rate, double freq,
                                          float gain, float syncWindow)
     : gr::sync_block("correctiq_auto",
                      gr::io_signature::make(1, 1, sizeof(gr_complex)),
@@ -55,7 +55,7 @@ correctiq_auto_impl::correctiq_auto_impl(float samp_rate, float freq,
 
   std::cout << "CorrectIQ Auto Synchronizing..." << std::endl;
 
-  d_max_syncSamples = (long)(d_samp_rate * syncWindow);
+  d_max_syncSamples = (long)(d_samp_rate * (double)syncWindow);
   // std::cout << "Using " << d_max_syncSamples << " samples for
   // synchronization" << std::endl;
 }
@@ -65,11 +65,11 @@ correctiq_auto_impl::correctiq_auto_impl(float samp_rate, float freq,
  */
 correctiq_auto_impl::~correctiq_auto_impl() {}
 
-float correctiq_auto_impl::get_freq() { return d_freq; }
+double correctiq_auto_impl::get_freq() { return d_freq; }
 
 float correctiq_auto_impl::get_gain() { return d_gain; }
 
-void correctiq_auto_impl::set_freq(float newValue) {
+void correctiq_auto_impl::set_freq(double newValue) {
   std::cout << "[CorrectIQ_Auto] Auto Synchronizing..." << std::endl;
   d_freq = newValue;
   synchronized = false;

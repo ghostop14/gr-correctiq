@@ -32,8 +32,8 @@ private:
   float avg_img = 0.0;
   float ratio = 1e-05f;
 
-  float d_samp_rate;
-  float d_freq;
+  double d_samp_rate;
+  double d_freq;
   float d_gain;
   float d_syncWindow;
 
@@ -43,16 +43,16 @@ private:
   long d_max_syncSamples;
 
 public:
-  correctiq_auto_impl(float samp_rate, float freq, float gain,
+  correctiq_auto_impl(double samp_rate, double freq, float gain,
                       float syncWindow);
   ~correctiq_auto_impl();
 
   void set_synchronized() { synchronized = true; }; // used for testing
 
-  virtual float get_freq();
+  virtual double get_freq();
   virtual float get_gain();
 
-  virtual void set_freq(float newValue);
+  virtual void set_freq(double newValue);
   virtual void set_gain(float newValue);
 
   int testCPU(int noutput_items, gr_vector_const_void_star &input_items,

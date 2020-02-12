@@ -46,13 +46,13 @@ namespace gr {
        * creating new instances.
        */
 
-      virtual float get_freq() = 0;
+      virtual double get_freq() = 0;
       virtual float get_gain() = 0;
 
-      virtual void set_freq(float newValue) = 0;
+      virtual void set_freq(double newValue) = 0;
       virtual void set_gain(float newValue) = 0;
 
-      static sptr make(float samp_rate,float freq,float gain,float syncWindow);
+      static sptr make(double samp_rate,double freq, float gain, float syncWindow);
     };
 
   } // namespace correctiq
