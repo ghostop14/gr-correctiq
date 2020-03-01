@@ -24,12 +24,7 @@ description here (python/__init__.py).
 '''
 from __future__ import unicode_literals
 
-# import swig generated symbols into the correctiq namespace
-try:
-    # this might fail if the module is python-only
-    from .correctiq_swig import *
-except ImportError:
-    pass
+from .correctiq_swig import *
 
 # import any pure python here
 #
