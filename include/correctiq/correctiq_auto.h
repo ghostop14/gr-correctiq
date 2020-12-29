@@ -35,7 +35,7 @@ namespace gr {
     class CORRECTIQ_API correctiq_auto : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<correctiq_auto> sptr;
+        typedef std::shared_ptr<correctiq_auto> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of correctiq::correctiq_auto.

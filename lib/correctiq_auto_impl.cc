@@ -31,8 +31,8 @@ namespace correctiq {
 
 correctiq_auto::sptr correctiq_auto::make(double samp_rate, double freq,
                                           float gain, float syncWindow) {
-  return gnuradio::get_initial_sptr(
-      new correctiq_auto_impl(samp_rate, freq, gain, syncWindow));
+    return gnuradio::make_block_sptr<correctiq_auto_impl>(
+        samp_rate, freq, gain, syncWindow);
 }
 
 /*

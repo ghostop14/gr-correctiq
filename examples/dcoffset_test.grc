@@ -1,6 +1,7 @@
 options:
   parameters:
     author: ''
+    catch_exceptions: 'True'
     category: Custom
     cmake_opt: ''
     comment: ''
@@ -22,7 +23,6 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: ''
-    window_size: ''
   states:
     bus_sink: false
     bus_source: false
@@ -68,7 +68,7 @@ blocks:
     gui_hint: 0,1,1,1
     label: Gain
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '0'
     step: '8'
@@ -89,7 +89,7 @@ blocks:
     gui_hint: 1,1,1,1
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '-0.1'
     step: '0.0001'
@@ -110,7 +110,7 @@ blocks:
     gui_hint: 1,0,1,1
     label: ''
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '-0.1'
     step: '0.0001'
@@ -242,7 +242,7 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    args: ''
+    args: rtl
     bb_gain0: '0'
     bb_gain1: '20'
     bb_gain10: '20'
@@ -614,6 +614,7 @@ blocks:
     minoutbuf: '0'
     name: '""'
     nconnections: '4'
+    norm_window: 'False'
     showports: 'True'
     tr_chan: '0'
     tr_level: '0.0'
@@ -632,7 +633,7 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
     ymax: '-20'
     ymin: '-120'
   states:
@@ -736,7 +737,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 432]
+    coordinate: [1011, 445]
     rotation: 0
     state: enabled
 

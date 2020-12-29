@@ -35,7 +35,7 @@ namespace gr {
     class CORRECTIQ_API SwapIQ : virtual public gr::sync_block
     {
      public:
-      typedef boost::shared_ptr<SwapIQ> sptr;
+      typedef std::shared_ptr<SwapIQ> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of correctiq::SwapIQ.

@@ -18,10 +18,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "clSComplex.h"
 #include "correctiq_man_impl.h"
 #include <gnuradio/io_signature.h>
@@ -30,7 +26,7 @@ namespace gr {
 namespace correctiq {
 
 correctiq_man::sptr correctiq_man::make(float real, float imag) {
-  return gnuradio::get_initial_sptr(new correctiq_man_impl(real, imag));
+    return gnuradio::make_block_sptr<correctiq_man_impl>(real, imag);
 }
 
 /*

@@ -30,7 +30,7 @@ namespace gr {
 namespace correctiq {
 
 correctiq::sptr correctiq::make() {
-  return gnuradio::get_initial_sptr(new correctiq_impl());
+	return gnuradio::make_block_sptr<correctiq_impl>();
 }
 
 /*

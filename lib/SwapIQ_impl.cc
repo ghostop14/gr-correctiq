@@ -29,7 +29,7 @@ namespace gr {
 namespace correctiq {
 
 SwapIQ::sptr SwapIQ::make(int datatype, int datasize) {
-  return gnuradio::get_initial_sptr(new SwapIQ_impl(datatype, datasize));
+    return gnuradio::make_block_sptr<SwapIQ_impl>(datatype, datasize);
 }
 
 /*
