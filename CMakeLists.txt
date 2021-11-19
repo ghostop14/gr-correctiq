@@ -92,20 +92,6 @@ if(HAVE_CX_LIMITED_RANGE)
 endif(HAVE_CX_LIMITED_RANGE)
 
 ########################################################################
-# Setup Native Capabilities Flag
-########################################################################
-option(ENABLE_NATIVE "Enable native build optimizations" ON)
-IF(UNIX)
-    IF (ENABLE_NATIVE)
-        MESSAGE(STATUS "Found GNU Radio native optimization flag.  Setting native CPU optimization flags.")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -ftree-vectorize")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=native -ftree-vectorize")
-    ELSE (ENABLE_NATIVE)
-        MESSAGE(STATUS "Not using additional GNU Radio native architecture optimizations.")
-    ENDIF (ENABLE_NATIVE)
-ENDIF(UNIX)
-
-########################################################################
 # Install directories
 ########################################################################
 include(FindPkgConfig)
