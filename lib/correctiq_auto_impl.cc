@@ -25,6 +25,8 @@
 #include "clSComplex.h"
 #include "correctiq_auto_impl.h"
 #include <gnuradio/io_signature.h>
+#include <iomanip>
+#include <limits>
 
 namespace gr {
 namespace correctiq {
